@@ -69,3 +69,35 @@ EducationField_impact = X_train.groupby('EducationField')['Attrition'].mean()
 X_train['EducationField_encoded'] = X_train['EducationField'].map(EducationField_impact)
 ```
 # Model Training
+```
+param_grid = {
+    'n_estimators': [100, 200, 300],
+    'ccp_alpha':[0.0, 0.1, 0.2],
+    'min_samples_split':[2, 5, 10],
+    'min_samples_leaf':[1, 2, 4]}
+
+roc_auc_scorer = make_scorer(roc_auc_score, greater_is_better=True)
+
+rf_classifier = RandomForestClassifier(random_state=0)
+grid_search = GridSearchCV(estimator= rf_classifier, param_grid=param_grid, cv=5, scoring=roc_auc_scorer, verbose=2)
+
+grid_search.fit(x_train, y_train)
+
+# Get the best parameters and best score
+best_params = grid_search.best_params_
+best_roc_auc = grid_search.best_score_
+
+print("Best Parameters:", best_params)
+print("Best ROC AUC:", best_roc_auc)
+# Splitting data to training and testing set
+x_train, x_test, y_train, y_test = train_test_split(X_train, Y_train, test_size = 0.33, random_state = 42)
+
+# setting parameters and training model
+class_weights = {0: 1, 1: 2}
+rf_classifier = RandomForestClassifier(n_estimators = 100, 
+                                       max_depth = 5,
+                                       class_weight = class_weights, 
+                                       random_state = 42)
+model = rf_classifier.fit(x_train, y_train)
+```
+Using random forest classifier, the model evaluated '83%' accuracy for the test set. 
