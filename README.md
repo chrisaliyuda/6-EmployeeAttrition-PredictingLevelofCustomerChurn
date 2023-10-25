@@ -44,3 +44,28 @@ mi_scores = pd.Series(mi_scores, name = 'Scores', index = x.columns)
 best_features = mi_scores.sort_values(ascending = False).head(17)
 ```
 ### Encoding Technique 
+```
+# Encoding JobRole using target encoding (regularized encoding)
+JobRole_impact = X_train.groupby('JobRole')['Attrition'].mean()
+X_train['JobRole_encoded'] = X_train['JobRole'].map(JobRole_impact)
+
+# Encoding marital status
+Marital_impact = X_train.groupby('MaritalStatus')['Attrition'].mean()
+X_train['MaritalStatus_encoded'] =  X_train['MaritalStatus'].map(Marital_impact)
+
+# Encoding Department
+Department_impact = X_train.groupby('Department')['Attrition'].mean()
+X_train['Department_encoded'] = X_train['Department'].map(Department_impact)
+# Encoding BusinessTravel using target encoding (regularized encoding)
+BusinessTravel_impact = X_train.groupby('BusinessTravel')['Attrition'].mean()
+X_train['BusinessTravel_encoded'] = X_train['BusinessTravel'].map(BusinessTravel_impact)
+
+# Encoding OverTime
+OverTime_impact = X_train.groupby('OverTime')['Attrition'].mean()
+X_train['OverTime_encoded'] =  X_train['OverTime'].map(OverTime_impact)
+
+# Encoding EducationField
+EducationField_impact = X_train.groupby('EducationField')['Attrition'].mean()
+X_train['EducationField_encoded'] = X_train['EducationField'].map(EducationField_impact)
+```
+# Model Training
