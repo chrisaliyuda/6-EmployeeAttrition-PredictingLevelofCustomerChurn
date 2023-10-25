@@ -36,3 +36,11 @@ The code checks for distribution of different variables as it might have direct 
 
 ### Feature Selection
 This was done using the mutual info regression model to get variables relating to our independent variable 
+```
+for col in x.select_dtypes('O'):
+    x[col],_ = x[col].factorize()
+mi_scores = mutual_info_regression(x,y, random_state = 0)
+mi_scores = pd.Series(mi_scores, name = 'Scores', index = x.columns)
+best_features = mi_scores.sort_values(ascending = False).head(17)
+```
+### Encoding Technique 
