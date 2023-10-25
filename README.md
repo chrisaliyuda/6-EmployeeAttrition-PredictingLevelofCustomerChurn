@@ -127,3 +127,25 @@ print("Best ROC AUC:", best_roc_auc)
 ```
 This gave us 82% accuracy score on the test set.
 ### LightGB model
+```
+x_train, x_test, y_train, y_test = train_test_split(X_train, Y_train, test_size = 0.33, random_state = 42)
+lgb_classifier = lgb.LGBMClassifier(n_estimators = 60,
+                                    learning_rate = 0.3,
+                                    num_leaves = 3,
+                                    min_gain_to_split = 3,
+                                    boosting_type = 'gbdt',
+                                    class_weight={0: 1, 1:2},
+                                    random_state = 42,
+                                    min_data_in_leaf = 20,
+                                    max_bin = 25, 
+                                    feature_fraction = 0.5,
+                                    bagging_freq = 20, 
+                                    bagging_fraction = 0.8)
+
+model = lgb_classifier.fit(x_train, y_train)
+prediction_prob = model.predict_proba(x_test)[:, 1]
+roc_score = roc_auc_score(y_test, prediction_prob)
+roc_score
+```
+Using the roc accuracy metrics, the model gave about 85% accuracy on the test set which is the best performing model, and the one set to be deployed to production. 
+
