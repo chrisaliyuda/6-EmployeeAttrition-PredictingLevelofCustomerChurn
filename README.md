@@ -69,6 +69,7 @@ EducationField_impact = X_train.groupby('EducationField')['Attrition'].mean()
 X_train['EducationField_encoded'] = X_train['EducationField'].map(EducationField_impact)
 ```
 # Model Training
+### Random Forest Classifier
 ```
 param_grid = {
     'n_estimators': [100, 200, 300],
@@ -101,3 +102,28 @@ rf_classifier = RandomForestClassifier(n_estimators = 100,
 model = rf_classifier.fit(x_train, y_train)
 ```
 Using random forest classifier, the model evaluated '83%' accuracy for the test set. 
+### XGBoost
+```
+param_grid = {
+    'n_estimators': [50, 100, 200],
+    'learning_rate':[0.01, 0.1, 0.2],
+    'max_depth':[3, 5, 7],
+    'gamma':[0, 0.1, 0.2],
+    'scale_pos_weight':[1,2,5]}
+
+roc_auc_scorer = make_scorer(roc_auc_score, greater_is_better=True)
+
+xgb = XGBClassifier(random_state= 42)
+grid_search = GridSearchCV(estimator= xgb, param_grid=param_grid, cv=5, scoring=roc_auc_scorer, verbose=2)
+
+grid_search.fit(x_train, y_train)
+
+# Get the best parameters and best score
+best_params = grid_search.best_params_
+best_roc_auc = grid_search.best_score_
+
+print("Best Parameters:", best_params)
+print("Best ROC AUC:", best_roc_auc)
+```
+This gave us 82% accuracy score on the test set.
+### LightGB model
