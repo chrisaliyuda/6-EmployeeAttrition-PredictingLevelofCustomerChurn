@@ -3,8 +3,8 @@
 This is a supervised machine learning project based on building a predictive model focused in understanding whether an employee will be churned or not based off several variables.
 Click link [here](https://github.com/chrisaliyuda/6-EmployeeAttrition-PredictingLevelofCustomerChurn/blob/main/Employee_Attrition_Prediction%20(2).ipynb) for more project details.
 
-## Data Analysis Process 
-### Model used 
+##     Data Analysis Process 
+###     Model used 
 1. random forest classifier
 2. XGBoost
 3. LightGB model
